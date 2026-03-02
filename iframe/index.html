@@ -15,6 +15,11 @@
         box-sizing: border-box;
       }
 
+      html,
+      body {
+        overflow: hidden;
+      }
+
       body {
         margin: 0;
         font-family: system-ui, sans-serif;
@@ -90,9 +95,7 @@
       This iframe sends its own height and mock API data to the parent window
       using <code>window.parent.postMessage</code>.
     </p>
-    <p>
-      The parent displays this data in the panel above the iframe.
-    </p>
+    <p>The parent displays this data in the panel above the iframe.</p>
     <p id="status">Fetching data…</p>
 
     <div class="test-controls">

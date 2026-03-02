@@ -24,6 +24,10 @@
         color: #1e293b;
       }
 
+      #content {
+        padding-bottom: 2rem;
+      }
+
       h1 {
         font-size: 1.25rem;
         font-weight: 600;
@@ -63,12 +67,17 @@
         color: #111827;
       }
 
-      iframe {
-        width: 100%;
+      #iframe {
         border: 1px solid #cbd5e1;
         border-radius: 8px;
+        overflow: hidden;
+      }
+
+      iframe {
+        width: 100%;
         display: block;
         height: 0;
+        border: 0;
         overflow: hidden;
       }
     </style>
@@ -76,25 +85,24 @@
   <body>
     <h1>iframe Messaging Example</h1>
 
-    <!-- Data panel is above the iframe in the DOM, as required -->
-    <div id="data-panel">
-      <h2>Data received from iframe</h2>
-      <div class="field">
-        <span class="label">Iframe height:</span>
-        <span class="value" id="val-height">— waiting —</span>
+    <div id="content">
+      <!-- Data panel is above the iframe in the DOM, as required -->
+      <div id="data-panel">
+        <h2>Data received from iframe</h2>
+        <div class="field">
+          <span class="label">Iframe height:</span>
+          <span class="value" id="val-height">— waiting —</span>
+        </div>
+        <div class="field">
+          <span class="label">Last modified date:</span>
+          <span class="value" id="val-date">— waiting —</span>
+        </div>
       </div>
-      <div class="field">
-        <span class="label">Last modified date:</span>
-        <span class="value" id="val-date">— waiting —</span>
+
+      <div id="iframe">
+        <iframe id="child-frame" src="./iframe/" title="Child iframe"></iframe>
       </div>
     </div>
-
-    <iframe
-      id="child-frame"
-      src="./iframe/"
-      title="Child iframe"
-      scrolling="no"
-    ></iframe>
 
     <script type="module" src="./src/parent/main.ts"></script>
   </body>
