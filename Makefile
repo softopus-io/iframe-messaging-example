@@ -20,16 +20,16 @@ help: ## Show this help
 .PHONY: install dev build preview format semgrep
 
 install:
-	npm ci
+	@npm ci
 
 dev:
-	npm run dev
+	@npm run dev
 
 build:
-	npm run build
+	@npm run build
 
 preview:
-	npm run preview
+	@npm run preview
 
 format: ## Reformat all HTML, TS, JS, JSON and CSS files via Prettier
 	$(call color,BLUE,Formatting files...)
