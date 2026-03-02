@@ -10,6 +10,7 @@ export const allowedOrigins: OriginEntry[] = [
   { name: "development", origin: "http://localhost:5173", enabled: true },
   { name: "staging",     origin: "https://staging.example.com", enabled: false },
   { name: "production",  origin: "https://example.com", enabled: false },
+  { name: "github-pages", origin: "https://softopus-io.github.io", enabled: true },
 ];
 
 export function getEnabledOrigins(): string[] {
