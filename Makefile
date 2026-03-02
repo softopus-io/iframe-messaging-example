@@ -17,7 +17,7 @@ help: ## Show this help
 #
 # DEV
 #
-.PHONY: install dev build preview semgrep
+.PHONY: install dev build preview format semgrep
 
 install:
 	npm ci
@@ -30,6 +30,10 @@ build:
 
 preview:
 	npm run preview
+
+format: ## Reformat all HTML, TS, JS, JSON and CSS files via Prettier
+	$(call color,BLUE,Formatting files...)
+	@npm run format
 
 semgrep: ## Run Semgrep security scan
 	$(call color,BLUE,Running Semgrep security scan...)
