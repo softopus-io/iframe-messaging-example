@@ -19,13 +19,27 @@ export type IframeToParentMessage =
       };
     };
 
+function isObject(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null;
+}
+
+function isIframeHeightPayload(payload: unknown): boolean {
+  return isObject(payload) && typeof payload.height === "number";
+}
+
+function isApiDataPayload(payload: unknown): boolean {
+  return isObject(payload) && typeof payload.lastModifiedDate === "string";
+}
+
 export function isIframeMessage(data: unknown): data is IframeToParentMessage {
-  return (
-    typeof data === "object" &&
-    data !== null &&
-    "type" in data &&
-    Object.values(MessageType).includes(
-      (data as IframeToParentMessage).type as MessageType
-    )
-  );
+  if (!isObject(data) || !("type" in data)) return false;
+
+  switch (data.type) {
+    case MessageType.IFRAME_HEIGHT:
+      return isIframeHeightPayload(data.payload);
+    case MessageType.API_DATA:
+      return isApiDataPayload(data.payload);
+    default:
+      return false;
+  }
 }

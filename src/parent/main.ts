@@ -1,6 +1,7 @@
 import { isIframeMessage, IframeToParentMessage, MessageType } from "../types/messages";
 import { getEnabledOrigins } from "../config";
 
+
 const iframeHeightEl = document.getElementById("val-height")!;
 const lastModifiedDateEl = document.getElementById("val-date")!;
 const childFrame = document.getElementById("child-frame") as HTMLIFrameElement;
@@ -26,8 +27,13 @@ window.addEventListener("message", (event: MessageEvent) => {
 function handleIframeMessage(msg: IframeToParentMessage): void {
   switch (msg.type) {
     case MessageType.IFRAME_HEIGHT: {
-      childFrame.style.height = `${msg.payload.height}px`;
-      iframeHeightEl.textContent = `${msg.payload.height}px`;
+      const { height } = msg.payload;
+      if (height < 100 || height > 5000) {
+        console.warn("[parent] rejected out-of-range height:", height);
+        return;
+      }
+      childFrame.style.height = `${height}px`;
+      iframeHeightEl.textContent = `${height}px`;
       break;
     }
     case MessageType.API_DATA: {
