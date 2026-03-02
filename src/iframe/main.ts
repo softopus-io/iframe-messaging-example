@@ -1,8 +1,22 @@
 import { MessageType } from "../types/messages";
 import type { IframeToParentMessage } from "../types/messages";
+import { getEnabledOrigins } from "../config";
 
 // Abort if not embedded — avoids sending messages when opened directly
 const isEmbedded = window.self !== window.top;
+
+// Derive the parent origin from document.referrer so postMessage is scoped
+// to the actual embedding page instead of broadcasting to any origin ("*").
+// Falls back to same origin for local dev where referrer may be empty.
+const parentOrigin = document.referrer
+  ? new URL(document.referrer).origin
+  : window.location.origin;
+
+// Refuse to send if the parent is not in the enabled allow-list.
+const parentAllowed = getEnabledOrigins().includes(parentOrigin);
+if (!parentAllowed) {
+  console.warn("[iframe] parent origin not in allow-list, messaging disabled:", parentOrigin);
+}
 
 // ----- 1. Send iframe height -----
 
@@ -13,7 +27,7 @@ function sendHeight(): void {
     payload: { height },
   };
   console.debug("[iframe] → sending", msg);
-  window.parent.postMessage(msg, "*");
+  window.parent.postMessage(msg, parentOrigin);
 }
 
 function observeHeight(): void {
@@ -22,7 +36,7 @@ function observeHeight(): void {
   ro.observe(document.body);
 }
 
-if (isEmbedded) {
+if (isEmbedded && parentAllowed) {
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", observeHeight);
   } else {
@@ -47,7 +61,7 @@ async function fetchAndSendApiData(): Promise<void> {
       payload: { lastModifiedDate: mockData.lastModifiedDate },
     };
     console.debug("[iframe] → sending", msg);
-    window.parent.postMessage(msg, "*");
+    window.parent.postMessage(msg, parentOrigin);
 
     statusEl.textContent = `Data sent to parent at ${new Date().toLocaleTimeString()}`;
   } catch (err) {
@@ -64,7 +78,7 @@ function fakeFetch(): Promise<MockApiResponse> {
   });
 }
 
-if (isEmbedded) {
+if (isEmbedded && parentAllowed) {
   fetchAndSendApiData();
 }
 
