@@ -15,7 +15,10 @@ const parentOrigin = document.referrer
 // Refuse to send if the parent is not in the enabled allow-list.
 const parentAllowed = getEnabledOrigins().includes(parentOrigin);
 if (!parentAllowed) {
-  console.warn("[iframe] parent origin not in allow-list, messaging disabled:", parentOrigin);
+  console.warn(
+    "[iframe] parent origin not in allow-list, messaging disabled:",
+    parentOrigin,
+  );
 }
 
 // ----- 1. Send iframe height -----
