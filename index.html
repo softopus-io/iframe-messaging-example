@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Parent Page – iframe Messaging</title>
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: system-ui, sans-serif;
+        max-width: 800px;
+        margin: 2rem auto;
+        padding: 0 1rem;
+        background: #f8fafc;
+        color: #1e293b;
+      }
+
+      h1 {
+        font-size: 1.25rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+      }
+
+      #data-panel {
+        background: #f0f4ff;
+        border: 1px solid #c7d2fe;
+        border-radius: 8px;
+        padding: 1rem 1.5rem;
+        margin-bottom: 1.5rem;
+      }
+
+      #data-panel h2 {
+        margin: 0 0 0.75rem;
+        font-size: 0.875rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: #4338ca;
+      }
+
+      .field {
+        display: flex;
+        gap: 0.5rem;
+        margin: 0.25rem 0;
+        font-size: 0.95rem;
+      }
+
+      .label {
+        font-weight: 600;
+        min-width: 160px;
+        color: #374151;
+      }
+
+      .value {
+        color: #111827;
+      }
+
+      iframe {
+        width: 100%;
+        border: 1px solid #cbd5e1;
+        border-radius: 8px;
+        display: block;
+        height: 0;
+        overflow: hidden;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>iframe Messaging Example</h1>
+
+    <!-- Data panel is above the iframe in the DOM, as required -->
+    <div id="data-panel">
+      <h2>Data received from iframe</h2>
+      <div class="field">
+        <span class="label">Iframe height:</span>
+        <span class="value" id="val-height">— waiting —</span>
+      </div>
+      <div class="field">
+        <span class="label">Last modified date:</span>
+        <span class="value" id="val-date">— waiting —</span>
+      </div>
+    </div>
+
+    <iframe
+      id="child-frame"
+      src="./iframe/"
+      title="Child iframe"
+      scrolling="no"
+    ></iframe>
+
+    <script type="module" src="./src/parent/main.ts"></script>
+  </body>
+</html>
