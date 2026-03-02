@@ -1,7 +1,6 @@
 import { isIframeMessage, IframeToParentMessage, MessageType } from "../types/messages";
 import { getEnabledOrigins } from "../config";
 
-
 const iframeHeightEl = document.getElementById("val-height")!;
 const lastModifiedDateEl = document.getElementById("val-date")!;
 const childFrame = document.getElementById("child-frame") as HTMLIFrameElement;

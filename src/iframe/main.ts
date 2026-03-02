@@ -21,7 +21,7 @@ if (!parentAllowed) {
 // ----- 1. Send iframe height -----
 
 function sendHeight(): void {
-  const height = document.documentElement.scrollHeight;
+  const height = document.body.scrollHeight;
   const msg: IframeToParentMessage = {
     type: MessageType.IFRAME_HEIGHT,
     payload: { height },
