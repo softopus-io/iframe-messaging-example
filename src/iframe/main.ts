@@ -1,4 +1,4 @@
-import { MessageType } from "../types/messages";
+import { MessageType, isParentMessage } from "../types/messages";
 import type { IframeToParentMessage } from "../types/messages";
 import { getEnabledOrigins } from "../config";
 
@@ -83,6 +83,18 @@ function fakeFetch(): Promise<MockApiResponse> {
 
 if (isEmbedded && parentAllowed) {
   fetchAndSendApiData();
+}
+
+// ----- 3b. Re-send API data on parent request -----
+
+if (isEmbedded && parentAllowed) {
+  window.addEventListener("message", (event: MessageEvent) => {
+    if (event.origin !== parentOrigin) return;
+    if (!isParentMessage(event.data)) return;
+
+    console.debug("[iframe] ← received request", event.data);
+    fetchAndSendApiData();
+  });
 }
 
 // ----- 3. Test controls: add/remove content blocks to exercise ResizeObserver -----

@@ -1,9 +1,18 @@
 export const MessageType = {
   IFRAME_HEIGHT: "IFRAME_HEIGHT",
   API_DATA: "API_DATA",
+  REQUEST_API_DATA: "REQUEST_API_DATA",
 } as const;
 
 export type MessageType = (typeof MessageType)[keyof typeof MessageType];
+
+export type ParentToIframeMessage = {
+  type: typeof MessageType.REQUEST_API_DATA;
+};
+
+export function isParentMessage(data: unknown): data is ParentToIframeMessage {
+  return isObject(data) && data.type === MessageType.REQUEST_API_DATA;
+}
 
 export type IframeToParentMessage =
   | {
